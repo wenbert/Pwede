@@ -7,6 +7,6 @@ class AccessComponent extends Component {
      */
     public function initialize(Controller $controller) {
         $this->request = $controller->request;
-        debug($this->request);
+        // debug($this->request);
     }
 }

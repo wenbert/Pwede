@@ -7,6 +7,7 @@ An authorization plugin for CakePHP. Permission management is centralized. Provi
 Usage
 =====
 Just add in your components:
+
 	public $components = array(
         'RequestHandler',
         'Session',

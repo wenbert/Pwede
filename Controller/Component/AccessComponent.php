@@ -34,9 +34,9 @@ class AccessComponent extends Component {
     public function initialize(Controller $controller) {
         $this->request = $controller->request;
 
-        //Load the GroupsPwederesource Model and create a relationship
-        //to the "Group" model in the settings on the fly
+        $this->User = ClassRegistry::init('UserManager.User');
         $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
+
         $this->GroupsPwederesource->bindModel(
             array('belongsTo' => array(
                 'Group' => array(
@@ -56,26 +56,90 @@ class AccessComponent extends Component {
             ))
         );
 
+        $loggedInUser = $this->User->findById(AuthComponent::user('id'));
+        
         // debug(AuthComponent::user());
+        // debug($loggedInUser);
 
-        //I'm not sure if this is the best way to do this.
-        //We are assuming that a "group id" exists in the Auth object
-        //of the currently logged in user.
-        //For now, we are restricted to have ONE GROUP per user.
-        $gid = AuthComponent::user($this->settings['auth_group_id']);
+        $gids = array();
+        foreach($loggedInUser['Group'] AS $group) {
+            $gids[] = $group['id'];
+        }
 
-        //After login, fetch all 
-        $resources = $this->GroupsPwederesource->findAllByGroupId(AuthComponent::user('group_id'));
-        // debug($this->request->params);
+        // debug($gids);
+
+        //Loop through the $gids and find all the "resources" for those groups
+        $resources = array();
+
+        $resources = $this->GroupsPwederesource->find('all', 
+            array('conditions' => 
+                array('group_id' => $gids)
+            )
+        );
+
+        // $this->User->find('all', array('conditions' => array('id' => array(1, 5, 7))));
         // debug($resources);
+
+        debug($this->_isAllowed($resources));
+
+        
+     }
+
+     private function _isAllowed($resources) {
+        // debug($resources);
+        // debug($this->request->params);
+
+        if(!count($resources)) {
+            return false;
+        }
+
         foreach($resources AS $key => $resource) {
-            if (
+
+            // */*
+            if($resource['Pwederesources']['plugin']==="*" && $resource['Pwederesources']['controller'] ==="*") {
+                return true;
+                //this is the superadmin
+            }
+
+            // plugin/*
+            if(
+                $resource['Pwederesources']['plugin'] === $this->request->params['plugin'] &&
+                (
+                    $resource['Pwederesources']['controller'] === null || 
+                    $resource['Pwederesources']['controller'] === "" || 
+                    $resource['Pwederesources']['controller'] === "*"
+                )
+            ) {
+                return true;
+            }
+
+            // plugin/controler/*
+            if(
                 $resource['Pwederesources']['plugin'] === $this->request->params['plugin'] &&
                 $resource['Pwederesources']['controller'] === $this->request->params['controller'] &&
-                $resource['Pwederesources']['action'] === "*"
+                (
+                    $resource['Pwederesources']['action'] === "*" ||
+                    $resource['Pwederesources']['action'] === "" ||
+                    $resource['Pwederesources']['action'] === null
+                )
             ) {
-                //allow all actions for plugin-controller combination
+                return true;
             }
+
+            // plugin/controller/action/*
+            if(
+                $resource['Pwederesources']['plugin'] === $this->request->params['plugin'] &&
+                $resource['Pwederesources']['controller'] === $this->request->params['controller'] &&
+                $resource['Pwederesources']['action'] === $this->request->params['action']
+            ) {
+                return true;
+            }
+
+            //TODO:
+            //named
+            //query
         }
+
+        return false;
      }
 }

@@ -11,5 +11,18 @@ Just add in your components:
 	public $components = array(
         'RequestHandler',
         'Session',
-        'Pwede.Access'
+        'Pwede.Access' => array(
+            'group_model' => 'UserManager.Group',
+            'group_model_fk' => 'group_id'
+        )
     );
+
+    /*
+    WHERE
+        'group_model' => 'UserManager.Group'
+        The Group Model
+
+        'group_model_fk' => 'group_id',
+        The Foreign Key
+    */
+

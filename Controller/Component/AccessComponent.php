@@ -12,8 +12,7 @@ class AccessComponent extends Component {
      */
     var $settings = array(
         'group_model' => 'Group',
-        'group_model_fk' => 'group_id',
-        'auth_group_id' => 'group_id'
+        'group_model_fk' => 'group_id'
     );
 
     public function __construct(ComponentCollection $collection, $settings = array()) {

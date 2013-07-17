@@ -1,4 +1,6 @@
-
+<?php
+// debug($groupsPwederesources);
+?>
 <p>The linking of the Groups to the different kind of permissions are set here. Everything is "deny all" unless specified here.</p>
 <p>Make sure you have added the 'resource'. A 'resource' is a combination of a plugin/controller/action.</p>
 

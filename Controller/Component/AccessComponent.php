@@ -6,7 +6,6 @@ class AccessComponent extends Component {
      * Settings array
      * group_model  The classname of the Group (defaults to "Group")
      * group_model_fk  The foreign key (defaults to "group_id")
-     * auth_group_id    The Group ID of the currently logged in user
      * 
      * @var array
      */
@@ -69,23 +68,15 @@ class AccessComponent extends Component {
             $gids[] = $group['id'];
         }
 
-        // debug($gids);
 
-        //Loop through the $gids and find all the "resources" for those groups
         $resources = array();
-
         $resources = $this->GroupsPwederesource->find('all', 
             array('conditions' => 
                 array('group_id' => $gids)
             )
         );
 
-        // $this->User->find('all', array('conditions' => array('id' => array(1, 5, 7))));
-        // debug($resources);
-
         debug($this->_isAllowed($resources));
-
-        
      }
 
      private function _isAllowed($resources) {

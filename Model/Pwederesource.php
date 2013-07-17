@@ -23,7 +23,7 @@ class Pwederesource extends PwedeAppModel {
  */
 	public $hasAndBelongsToMany = array(
 		'Group' => array(
-			'className' => 'UserManager.Group',
+			'className' => Configure::read('Pwede.GroupModel'),
 			'joinTable' => 'groups_pwederesources',
 			'foreignKey' => 'pwederesource_id',
 			'associationForeignKey' => 'group_id',

@@ -36,6 +36,9 @@ class AccessComponent extends Component {
         $this->User = ClassRegistry::init('UserManager.User');
         $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
 
+        Configure::write('Pwede.GroupModel', $this->settings['group_model']);
+        Configure::write('Pwede.GroupFK', $this->settings['group_model_fk']);
+
         $this->GroupsPwederesource->bindModel(
             array('belongsTo' => array(
                 'Group' => array(
@@ -45,14 +48,15 @@ class AccessComponent extends Component {
                  'fields' => '',
                  'order' => ''
                 ),
-                'Pwederesources' => array(
-                    'className' => 'Pwederesources',
-                    'foreignKey' => 'pwederesources_id',
+                'Pwederesource' => array(
+                    'className' => 'Pwederesource',
+                    'foreignKey' => 'pwederesource_id',
                     'conditions' => '',
                     'fields' => '',
                     'order' => ''
                 )
-            ))
+            )),
+            false
         );
 
         $loggedInUser = $this->User->findById(AuthComponent::user('id'));
@@ -86,7 +90,7 @@ class AccessComponent extends Component {
 
      private function _isAllowed($resources) {
         // debug($resources);
-        // debug($this->request->params);
+        // debug($this->request);
 
         if(!count($resources)) {
             return false;
@@ -95,18 +99,18 @@ class AccessComponent extends Component {
         foreach($resources AS $key => $resource) {
 
             // */*
-            if($resource['Pwederesources']['plugin']==="*" && $resource['Pwederesources']['controller'] ==="*") {
+            if($resource['Pwederesource']['plugin']==="*" && $resource['Pwederesource']['controller'] ==="*") {
                 return true;
                 //this is the superadmin
             }
 
             // plugin/*
             if(
-                $resource['Pwederesources']['plugin'] === $this->request->params['plugin'] &&
+                $resource['Pwederesource']['plugin'] === $this->request->params['plugin'] &&
                 (
-                    $resource['Pwederesources']['controller'] === null || 
-                    $resource['Pwederesources']['controller'] === "" || 
-                    $resource['Pwederesources']['controller'] === "*"
+                    $resource['Pwederesource']['controller'] === null || 
+                    $resource['Pwederesource']['controller'] === "" || 
+                    $resource['Pwederesource']['controller'] === "*"
                 )
             ) {
                 return true;
@@ -114,12 +118,12 @@ class AccessComponent extends Component {
 
             // plugin/controler/*
             if(
-                $resource['Pwederesources']['plugin'] === $this->request->params['plugin'] &&
-                $resource['Pwederesources']['controller'] === $this->request->params['controller'] &&
+                $resource['Pwederesource']['plugin'] === $this->request->params['plugin'] &&
+                $resource['Pwederesource']['controller'] === $this->request->params['controller'] &&
                 (
-                    $resource['Pwederesources']['action'] === "*" ||
-                    $resource['Pwederesources']['action'] === "" ||
-                    $resource['Pwederesources']['action'] === null
+                    $resource['Pwederesource']['action'] === "*" ||
+                    $resource['Pwederesource']['action'] === "" ||
+                    $resource['Pwederesource']['action'] === null
                 )
             ) {
                 return true;
@@ -127,9 +131,9 @@ class AccessComponent extends Component {
 
             // plugin/controller/action/*
             if(
-                $resource['Pwederesources']['plugin'] === $this->request->params['plugin'] &&
-                $resource['Pwederesources']['controller'] === $this->request->params['controller'] &&
-                $resource['Pwederesources']['action'] === $this->request->params['action']
+                $resource['Pwederesource']['plugin'] === $this->request->params['plugin'] &&
+                $resource['Pwederesource']['controller'] === $this->request->params['controller'] &&
+                $resource['Pwederesource']['action'] === $this->request->params['action']
             ) {
                 return true;
             }

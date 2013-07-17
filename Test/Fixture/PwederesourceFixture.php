@@ -16,6 +16,7 @@ class PwederesourceFixture extends CakeTestFixture {
 		'controller' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'action' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'named' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+		'pass' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'query' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
@@ -35,6 +36,7 @@ class PwederesourceFixture extends CakeTestFixture {
 			'controller' => 'Lorem ipsum dolor sit amet',
 			'action' => 'Lorem ipsum dolor sit amet',
 			'named' => 'Lorem ipsum dolor sit amet',
+			'pass' => 'Lorem ipsum dolor sit amet',
 			'query' => 'Lorem ipsum dolor sit amet'
 		),
 	);

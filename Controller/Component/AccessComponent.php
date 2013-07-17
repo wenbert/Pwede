@@ -57,4 +57,5 @@ class AccessComponent extends Component {
             )),
             false
         );
+    }
 }

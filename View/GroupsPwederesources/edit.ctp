@@ -1,24 +1,37 @@
-<div class="groupsPwederesources form">
-<?php echo $this->Form->create('GroupsPwederesource'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Resource for '.$this->data['Group']['name']); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('group_id', array('type' => 'hidden'));
-		echo $this->Form->select('pwederesource_id', $resources);
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+<h2><?php echo __($page_title); ?> for <?php echo $this->data['Group']['name'] ?></h2>
+<div id="content-left">
+    <div id="content-left-top">
+    </div><!-- end content-left-search --> 
 
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('GroupsPwederesource.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('GroupsPwederesource.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Groups Pwederesources'), array('action' => 'index')); ?></li>
-	</ul>
+    <div id="content-left-mid">
+        <?php echo $this->Form->create('GroupsPwederesource'); ?>
+            <fieldset>
+            <?php
+            echo $this->Form->input('id');
+            echo $this->Form->input('group_id', array('type' => 'hidden'));
+            ?>
+           
+	        <div class="input select_medium required">
+	            <label for="GroupsPwederesourcePwederesourceId">Resource</label>
+	            <div class="custom_select_medium" >
+	                <?php
+	                echo $this->Form->input('pwederesource_id', array('options' => $resources, 'label' => false, 'div' => false, 'class' => 'select_medium styled'));
+				
+	                ?>
+	            </div>
+            </fieldset>
+        <?php 
+        echo $this->Form->submit('Save Item', array('id' => 'submit'));
+        echo $this->Form->end();
+        ?>
+        <div class="clear"></div>
+    </div> <!-- end content-left-mid -->
+    <div id="content-left-btm">
+    </div><!-- end content-left-btm -->
+</div> <!-- end content-left -->
+
+<div id="content-right-panel">
+	<a href="#" class="selected">Edit Group-Resource Access</a>
+    <?php echo $this->Html->link(__('Show All Group-Resource Access'), array('action' => 'index')); ?>
 </div>
 
-<?php
-// debug($this->data);
-?>

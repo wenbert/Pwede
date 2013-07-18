@@ -1,55 +1,82 @@
 <?php
-// debug($groupsPwederesources);
+echo $this->Html->script(array(
+        'admin/pwede/groupspwederesources/index'
+    ), array('inline' => false));
 ?>
+<h2><?php echo __($page_title); ?></h2>
+
 <p>The linking of the Groups to the different kind of permissions are set here. Everything is "deny all" unless specified here.</p>
 <p>Make sure you have added the 'resource'. A 'resource' is a combination of a plugin/controller/action.</p>
 
-<div class="groupsPwederesources index">
-	<h2><?php echo __('Groups Pwederesources'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('Group.name'); ?></th>
-			<th>Resources</th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php foreach ($groupsPwederesources as $groupsPwederesource): ?>
-	<tr>
-		<td>
-			<?php echo h($groupsPwederesource['GroupsPwederesource']['id']); ?>&nbsp;
-		</td>
-		<td>
-			<?php echo h($groupsPwederesource['Group']['name']); ?>&nbsp;
-		</td>
-		<td>
-			<?php echo h($groupsPwederesource['GroupsPwederesource']['pwederesource_id']); ?>&nbsp;
-			<?php echo h($groupsPwederesource['Pwederesource']['plugin']."/".$groupsPwederesource['Pwederesource']['controller']."/".$groupsPwederesource['Pwederesource']['action']); ?>&nbsp;
-		</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $groupsPwederesource['GroupsPwederesource']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $groupsPwederesource['GroupsPwederesource']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $groupsPwederesource['GroupsPwederesource']['id']), null, __('Are you sure you want to delete # %s?', $groupsPwederesource['GroupsPwederesource']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
+<div id="content-left">
+    <div id="content-left-search">
+        <form class="floatleft" action="<?php echo $this->webroot; ?>pwede/groupspwederesources/index" method="GET" id="search">   
+            <input type="text" name="search" id="search" />
+            <input type="submit" value="" id="ssubmit" />
+        </form>
+        <div class="sort">
+            &nbsp;
+        </div>
+    </div><!-- end content-left-search -->
+
+    <div id="content-left-mid">
+        <?php foreach ($groupsPwederesources as $groupsPwederesource): ?>
+            <div id="item<?php echo h($groupsPwederesource['Pwederesource']['id']); ?>" class="item floatleft">
+                
+                <?php
+                echo $this->Html->link('', array('action' => 'edit',$groupsPwederesource['GroupsPwederesource']['id']), array('class' => 'edit'));
+                ?>
+                <a href="#" id="<?php echo $groupsPwederesource['GroupsPwederesource']['id']?>" class="trash delete-pwederesource"></a>
+                <div class="description floatleft">
+                    <img src="<?php echo $this->webroot; ?>img/admin/icon-document.png" width="30" height="30" />
+                    <h3>
+                    	<?php echo h($groupsPwederesource['Group']['name']); ?>
+                    	has access to: 
+                    </h3>
+                    <div class="resource-red">
+                    	<?php
+                        echo $groupsPwederesource['Pwederesource']['plugin'];
+                        ?>
+                        /
+                        <?php
+                        echo $groupsPwederesource['Pwederesource']['controller'];
+                        ?>
+                        /
+                        <?php
+                        echo $groupsPwederesource['Pwederesource']['action'];
+                        ?>
+                    </div>
+                </div>
+
+                <div style="display: none;" id="confirmation-<?php echo $groupsPwederesource['GroupsPwederesource']['id']?>" class="confirmation">Are you sure you want to delete this resources? &nbsp; <a class="delete-confirm red-gradient" id="delete-confirm-<?php echo $groupsPwederesource['GroupsPwederesource']['id'] ?>" rel="<?php echo $groupsPwederesource['GroupsPwederesource']['id'] ?>" href="">Yes</a>&nbsp;&nbsp;<a class="delete-cancel gray-gradient" id="delete-cancel-<?php echo $groupsPwederesource['GroupsPwederesource']['id']?>" rel="<?php echo $groupsPwederesource['GroupsPwederesource']['id'] ?>" href="#">No</a></div>
+            </div>
+            <div class="clear"></div>
+        <?php endforeach;?>
+    </div> <!-- end content-left-mid -->
+    
+    <div id="content-left-btm">
+        <div id="" class="pagination floatleft">
+            <?php
+            
+            if($this->params['paging']['GroupsPwederesource']['pageCount'] > 1):
+            ?>
+            <div class="paging">
+                <?php
+                echo $this->Paginator->prev('<', array(), null, array('class' => 'prev disabled'));
+                echo $this->Paginator->numbers(array('separator' => ''));
+                echo $this->Paginator->next('>', array(), null, array('class' => 'next disabled'));
+                ?>
+            </div>
+            <?php
+            endif;
+            ?>
+        </div>
+
+    </div> <!-- content-left-btm -->
+</div><!-- end content-left -->
+
+
+<div id="content-right-panel">
+    <?php echo $this->Html->link(__('New Resource'), array('action' => 'add')); ?>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Groups Pwederesource'), array('action' => 'add')); ?></li>
-	</ul>
-</div>
+

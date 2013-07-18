@@ -13,8 +13,36 @@ class GroupsPwederesourcesController extends PwedeAppController {
  * @return void
  */
     public function index() {
-        $this->GroupsPwederesource->recursive = 0;
-        $this->set('groupsPwederesources', $this->paginate());
+        $this->set('page_title', 'Group-Resource Access');
+
+        $conditions = array();
+        $limit = Configure::read('Grid.RESULTS_PER_PAGE');
+
+        if(isset($_GET['search'])) {
+            $conditions = array('OR' => array(
+                array('Pwederesource.plugin LIKE' => '%'.$this->request->query['search'].'%'),
+                array('Pwederesource.controller LIKE' => '%'.$this->request->query['search'].'%'),
+                array('Pwederesource.action LIKE' => '%'.$this->request->query['search'].'%'),
+                array('Pwederesource.named LIKE' => '%'.$this->request->query['search'].'%'),
+                array('Pwederesource.pass LIKE' => '%'.$this->request->query['search'].'%'),
+                array('Pwederesource.query LIKE' => '%'.$this->request->query['search'].'%'),
+            ));
+        }
+
+        $this->paginate = array(
+            'conditions' => $conditions,
+            'limit' => $limit,
+            // 'order' => array('Pwederesource.id'=> 'DESC'),
+            'paramType' => 'querystring'
+        );
+
+        try {
+            $groupsPwederesources = $this->paginate('GroupsPwederesource');
+        } catch (NotFoundException $e) {
+            $groupsPwederesources = array('message' => 'No results');
+        }
+
+        $this->set('groupsPwederesources', $groupsPwederesources);
     }
 
 /**
@@ -42,6 +70,7 @@ class GroupsPwederesourcesController extends PwedeAppController {
  * @return void
  */
     public function add() {
+        $this->set('page_title', 'Add Group-Resource Access');
         if ($this->request->is('post')) {
             $this->GroupsPwederesource->create();
             debug($this->request->data);
@@ -75,6 +104,7 @@ class GroupsPwederesourcesController extends PwedeAppController {
  * @return void
  */
     public function edit($id = null) {
+        $this->set('page_title', 'Edit Group-Resource Access');
         if (!$this->GroupsPwederesource->exists($id)) {
             throw new NotFoundException(__('Invalid groups pwederesource'));
         }
@@ -113,11 +143,17 @@ class GroupsPwederesourcesController extends PwedeAppController {
             throw new NotFoundException(__('Invalid groups pwederesource'));
         }
         $this->request->onlyAllow('post', 'delete');
-        if ($this->GroupsPwederesource->delete()) {
-            $this->Session->setFlash(__('Groups pwederesource deleted'));
+        
+        if($this->request->is('ajax')) {
+            $this->set('result', $this->GroupsPwederesource->delete());
+            $this->Session->setFlash(__('Group-Resource deleted'));
+        } else {
+            if ($this->GroupsPwederesource->delete()) {
+                $this->Session->setFlash(__('Group-Resource deleted'));
+                $this->redirect(array('action' => 'index'));
+            }
+            $this->Session->setFlash(__('Group-Resource was not deleted'));
             $this->redirect(array('action' => 'index'));
         }
-        $this->Session->setFlash(__('Groups pwederesource was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 }

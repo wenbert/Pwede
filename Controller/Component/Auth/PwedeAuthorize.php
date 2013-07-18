@@ -6,24 +6,26 @@ App::uses('BaseAuthorize', 'Controller/Component/Auth');
 class PwedeAuthorize extends BaseAuthorize {
     public function authorize($user, CakeRequest $request) {
         // return false;
-        $this->User = ClassRegistry::init('UserManager.User');
         $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
 
-        $loggedInUser = $this->User->findById(AuthComponent::user('id'));
+        $loggedInUser = AuthComponent::user();
         
-
-
         $gids = array();
         foreach($loggedInUser['Group'] AS $group) {
             $gids[] = $group['id'];
         }
 
-        $resources = array();
-        $resources = $this->GroupsPwederesource->find('all', 
-            array('conditions' => 
-                array('group_id' => $gids)
-            )
-        );
+        //Cache this longterm. We clear the cache everytime we change permissions
+        $resources = Cache::read('pwederesources', 'longterm');
+
+        if(!$resources) {
+            $resources = $this->GroupsPwederesource->find('all', 
+                array('conditions' => 
+                    array('group_id' => $gids)
+                )
+            );
+            Cache::write('pwederesources', $resources, 'longterm');
+        }
         
         if($this->_isAllowed($resources, $request)) {
             return true;

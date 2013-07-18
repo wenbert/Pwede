@@ -19,15 +19,20 @@ class PwedeAuthorize extends BaseAuthorize {
         $resources = Cache::read('pwederesources', 'long');
 
         if(!$resources) {
-            $resources = $this->GroupsPwederesource->find('all', 
-                array('conditions' => 
-                    array('group_id' => $gids)
-                )
-            );
+            $resources = $this->GroupsPwederesource->find('all');
             Cache::write('pwederesources', $resources, 'long');
         }
+
+        $groupresources = array();
+        foreach($resources AS $resource) {
+            foreach($gids AS $group_id) {
+                if($group_id == $resource['Group']['id']) {
+                    $groupresources[] = $resource;
+                }
+            }
+        }
         
-        if($this->_isAllowed($resources, $request)) {
+        if($this->_isAllowed($groupresources, $request)) {
             return true;
         }
 

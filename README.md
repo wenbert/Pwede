@@ -10,6 +10,12 @@ This plugin relies on the Auth component enabled. Make sure you have the Auth co
 
 Usage
 =====
+Enable the plugin with bootstrap set to true.
+
+    CakePlugin::loadAll(array(
+        'Pwede' => array('bootstrap' => true)
+    ));
+
 Just add in your components:
 
 	public $components = array(

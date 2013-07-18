@@ -21,22 +21,25 @@ class Pwederesource extends PwedeAppModel {
  *
  * @var array
  */
-	public $hasAndBelongsToMany = array(
-		'Group' => array(
-			'className' => Configure::read('Pwede.GroupModel'),
-			'joinTable' => 'groups_pwederesources',
-			'foreignKey' => 'pwederesource_id',
-			'associationForeignKey' => 'group_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-		)
-	);
+	// This is bound on the fly in AccessComponent.
+
+	// public $hasAndBelongsToMany = array(
+	// 	'Group' => array(
+	// 		'className' => Configure::read('Pwede.GroupModel'),
+	// 		// 'className' => 'UserManager.Group',
+	// 		'joinTable' => 'groups_pwederesources',
+	// 		'foreignKey' => 'pwederesource_id',
+	// 		'associationForeignKey' => 'group_id',
+	// 		'unique' => 'keepExisting',
+	// 		'conditions' => '',
+	// 		'fields' => '',
+	// 		'order' => '',
+	// 		'limit' => '',
+	// 		'offset' => '',
+	// 		'finderQuery' => '',
+	// 		'deleteQuery' => '',
+	// 		'insertQuery' => ''
+	// 	)
+	// );
 
 }

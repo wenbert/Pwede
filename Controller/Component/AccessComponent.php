@@ -57,5 +57,30 @@ class AccessComponent extends Component {
             )),
             false
         );
+
+        $this->Pwederesource = ClassRegistry::init('Pwederesource');
+        $this->Pwederesource->bindModel(
+            array('hasAndBelongsToMany' => 
+                array(
+                    'Group' => array(
+                        'className' => Configure::read('Pwede.GroupModel'),
+                        // 'className' => 'UserManager.Group',
+                        'joinTable' => 'groups_pwederesources',
+                        'foreignKey' => 'pwederesource_id',
+                        'associationForeignKey' => 'group_id',
+                        'unique' => 'keepExisting',
+                        'conditions' => '',
+                        'fields' => '',
+                        'order' => '',
+                        'limit' => '',
+                        'offset' => '',
+                        'finderQuery' => '',
+                        'deleteQuery' => '',
+                        'insertQuery' => ''
+                    )
+                )   
+            ),
+            false
+        );
     }
 }

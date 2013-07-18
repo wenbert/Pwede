@@ -16,7 +16,7 @@ class PwedeAuthorize extends BaseAuthorize {
         }
 
         //Cache this longterm. We clear the cache everytime we change permissions
-        $resources = Cache::read('pwederesources', 'longterm');
+        $resources = Cache::read('pwederesources', 'long');
 
         if(!$resources) {
             $resources = $this->GroupsPwederesource->find('all', 
@@ -24,7 +24,7 @@ class PwedeAuthorize extends BaseAuthorize {
                     array('group_id' => $gids)
                 )
             );
-            Cache::write('pwederesources', $resources, 'longterm');
+            Cache::write('pwederesources', $resources, 'long');
         }
         
         if($this->_isAllowed($resources, $request)) {

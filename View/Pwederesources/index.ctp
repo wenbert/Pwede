@@ -77,7 +77,12 @@ echo $this->Html->script(array(
 
 
 <div id="content-right-panel">
-    <?php echo $this->Html->link(__('New Resource'), array('action' => 'add')); ?>
+    <?php echo $this->Html->link(__('Show All Group-Resource Access'), array('controller' => 'groupspwederesources', 'action' => 'index')); ?>
+    <?php echo $this->Html->link(__('Add Group-Resource Access'), array('controller' => 'groupspwederesources', 'action' => 'add')); ?>
+    <br/>
+    <?php echo $this->Html->link(__('Show All Resources'), array('controller' => 'pwederesources', 'action' => 'index')); ?>
+    <?php echo $this->Html->link(__('Add Resource'), array('controller' => 'pwederesources', 'action' => 'add')); ?>
+
 </div>
 
 

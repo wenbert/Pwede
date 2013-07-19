@@ -27,6 +27,9 @@
 </div> <!-- end content-left -->
 
 <div id="content-right-panel">
-<a href="#" class="selected">Add Resource</a>
-    <?php echo $this->Html->link(__('Show All Resources'), array('action' => 'index')); ?>
+    <?php echo $this->Html->link(__('Show All Group-Resource Access'), array('controller' => 'groupspwederesources', 'action' => 'index')); ?>
+    <?php echo $this->Html->link(__('Add Group-Resource Access'), array('controller' => 'groupspwederesources', 'action' => 'add')); ?>
+    <br/>
+    <?php echo $this->Html->link(__('Show All Resources'), array('controller' => 'pwederesources', 'action' => 'index')); ?>
+    <?php echo $this->Html->link(__('Add Resource'), array('controller' => 'pwederesources', 'action' => 'add')); ?>
 </div>

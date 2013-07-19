@@ -77,6 +77,6 @@ echo $this->Html->script(array(
 
 
 <div id="content-right-panel">
-    <?php echo $this->Html->link(__('New Resource'), array('action' => 'add')); ?>
+    <?php echo $this->Html->link(__('Add Group-Resource Access'), array('action' => 'add')); ?>
 </div>
 

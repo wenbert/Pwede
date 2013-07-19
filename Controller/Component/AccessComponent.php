@@ -82,5 +82,38 @@ class AccessComponent extends Component {
             ),
             false
         );
+
+        $this->_isPublic();
+    }
+
+    /**
+     * Checks if public the current request is allowable in public
+     * @return void
+     */
+    public function _isPublic() {
+        $resources = Cache::read('pwederesources', 'long');
+
+        if(!$resources) {
+            $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
+            $resources = $this->GroupsPwederesource->find('all');
+            Cache::write('pwederesources', $resources, 'long');
+        }
+
+        foreach($resources AS $resource) {
+            // debug($resource['Group']['name']);
+            // debug( $resource['Pwederesource']['controller']);
+            if(strtolower($resource['Group']['name']) === 'public') {
+                if(
+                    $this->request->params['plugin'] === $resource['Pwederesource']['plugin'] && 
+                    $this->request->params['controller'] === $resource['Pwederesource']['controller'] && 
+                    $resource['Pwederesource']['action'] === '*' 
+                ) {
+                    // die($resource['Pwederesource']['action']);
+                    AuthComponent::allow($this->request->params['action']);
+                }
+            }
+        }
+
+        // die('qqqq');        
     }
 }

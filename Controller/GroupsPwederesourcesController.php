@@ -59,7 +59,7 @@ class GroupsPwederesourcesController extends PwedeAppController {
         }
         $options = array('conditions' => array('GroupsPwederesource.' . $this->GroupsPwederesource->primaryKey => $id));
         $result = $this->GroupsPwederesource->find('first', $options);
-        debug($result);
+        // debug($result);
         // debug($this->GroupsPwederesource->Pwederesource->find('list'));
         $this->set('groupsPwederesource', $result);
     }
@@ -73,8 +73,9 @@ class GroupsPwederesourcesController extends PwedeAppController {
         $this->set('page_title', 'Add Group-Resource Access');
         if ($this->request->is('post')) {
             $this->GroupsPwederesource->create();
-            debug($this->request->data);
+            // debug($this->request->data);
             if ($this->GroupsPwederesource->saveAll($this->request->data)) {
+                Cache::delete('pwederesources','long');
                 $this->Session->setFlash(__('The groups pwederesource has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
@@ -112,6 +113,7 @@ class GroupsPwederesourcesController extends PwedeAppController {
             // debug($this->request->data);
             // die();
             if ($this->GroupsPwederesource->save($this->request->data)) {
+                Cache::delete('pwederesources','long');
                 $this->Session->setFlash(__('The groups pwederesource has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
@@ -143,6 +145,7 @@ class GroupsPwederesourcesController extends PwedeAppController {
             throw new NotFoundException(__('Invalid groups pwederesource'));
         }
         $this->request->onlyAllow('post', 'delete');
+        Cache::delete('pwederesources','long');
         
         if($this->request->is('ajax')) {
             $this->set('result', $this->GroupsPwederesource->delete());

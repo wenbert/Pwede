@@ -1,7 +1,7 @@
 Pwede
 =====
 
-An authorization plugin for CakePHP. Permission management is centralized. Provides a UI to manage permissions.
+An access permission plugin for CakePHP. Permission management is centralized. Provides a UI to manage permissions.
 
 Component Dependencies
 ====

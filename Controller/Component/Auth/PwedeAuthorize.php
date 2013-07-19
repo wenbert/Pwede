@@ -6,7 +6,6 @@ App::uses('BaseAuthorize', 'Controller/Component/Auth');
 class PwedeAuthorize extends BaseAuthorize {
     public function authorize($user, CakeRequest $request) {
         // return false;
-        $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
 
         $loggedInUser = AuthComponent::user();
         
@@ -19,9 +18,12 @@ class PwedeAuthorize extends BaseAuthorize {
         $resources = Cache::read('pwederesources', 'long');
 
         if(!$resources) {
+            $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
             $resources = $this->GroupsPwederesource->find('all');
             Cache::write('pwederesources', $resources, 'long');
         }
+
+
 
         $groupresources = array();
         foreach($resources AS $resource) {
@@ -77,7 +79,7 @@ class PwedeAuthorize extends BaseAuthorize {
                     $resource['Pwederesource']['action'] === null
                 )
             ) {
-                // debug('b');
+                 // debug('b');
                 return true;
             }
 

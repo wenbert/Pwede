@@ -32,7 +32,7 @@ class AccessComponent extends Component {
     public function initialize(Controller $controller) {
         $this->request = $controller->request;
 
-        $this->User = ClassRegistry::init('UserManager.User');
+        $this->User = ClassRegistry::init('User');
         $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
 
         Configure::write('Pwede.GroupModel', $this->settings['group_model']);

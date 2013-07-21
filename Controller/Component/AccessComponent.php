@@ -11,7 +11,8 @@ class AccessComponent extends Component {
      */
     var $settings = array(
         'group_model' => 'Group',
-        'group_model_fk' => 'group_id'
+        'group_model_fk' => 'group_id',
+        'user_model' => 'User'
     );
 
     public function __construct(ComponentCollection $collection, $settings = array()) {
@@ -24,6 +25,10 @@ class AccessComponent extends Component {
         if(!isset($this->settings['group_model_fk'])) {
             $this->settings['group_model_fk'] = 'group_id';
         }
+
+        if(!isset($this->settings['user_model'])) {
+            $this->settings['user_model'] = 'User';
+        }
     }
 
     /**
@@ -32,11 +37,13 @@ class AccessComponent extends Component {
     public function initialize(Controller $controller) {
         $this->request = $controller->request;
 
-        $this->User = ClassRegistry::init('User');
+        $this->User = ClassRegistry::init($this->settings['user_model']);
+        // $this->User = ClassRegistry::init('UserManager.User');
         $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
 
         Configure::write('Pwede.GroupModel', $this->settings['group_model']);
         Configure::write('Pwede.GroupFK', $this->settings['group_model_fk']);
+        Configure::write('Pwede.UserModel', $this->settings['user_model']);
 
         $this->GroupsPwederesource->bindModel(
             array('belongsTo' => array(

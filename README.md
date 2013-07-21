@@ -16,12 +16,23 @@ Enable the plugin with bootstrap set to true.
         'Pwede' => array('bootstrap' => true)
     ));
 
-Just add in your components:
+Add in your components:
 
-	public $components = array(
+    public $components = array(
         'RequestHandler',
         'Session',
         'Auth' => array(
+            'authenticate' => array(
+                'Form' => array(
+                    'fields' => array(
+                        'username' => 'username',
+                        'password' => 'password',
+                    ),
+                    'userModel' => 'User',
+                    'recursive' => 1, //This is so that we get the Groups upon login
+                    // 'contain' => array('contain' => 'UserManager.Group')
+                )
+            ),
             'loginAction' => array(
                     //'plugin' => 'user_manager',
                     'controller' => 'users',
@@ -53,4 +64,8 @@ The Group Model
 
 'group_model_fk' => 'group_id',
 The Foreign Key
+
+Setup the cache. Make sure that this directory exists:
+
+    app/tmp/cache/long
 

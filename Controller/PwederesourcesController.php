@@ -16,7 +16,7 @@ class PwederesourcesController extends PwedeAppController {
         $this->set('page_title', 'Resources');
 
         $conditions = array();
-        $limit = Configure::read('Grid.RESULTS_PER_PAGE');
+        $limit = Configure::read('Pwede.RESULTS_PER_PAGE');
 
         if(isset($_GET['search'])) {
             $conditions = array('OR' => array(

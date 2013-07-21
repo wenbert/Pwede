@@ -23,11 +23,23 @@ class PwedeHelper extends AppHelper {
      * only that this does not display the link if the current logged in user
      * does not have access to the target resource
      */
-    public function link($text, $options) {
+    public function link($text, $options, $isTab = false) {
 
         $hasAccess = false;
 
         $resources = CakeSession::read('Auth.User.AllowedResource');
+
+        if(!isset($options['plugin'])) {
+            // $options['plugin'] = "";
+            $options['plugin'] = $this->request->params['plugin'];
+        }
+
+        if(!isset($options['controller'])) {
+            // $options['controller'] = "";
+            $options['controller'] = $this->request->params['controller'];
+        }
+
+        // debug($this->request->params);
 
         foreach($resources AS $key => $resource) {
 
@@ -80,8 +92,11 @@ class PwedeHelper extends AppHelper {
         }
 
         if($hasAccess) {
-
-            return $this->Nav->highlightCurrentTab(__($text), $options);
+            if($isTab) {
+                return $this->Nav->highlightCurrentTab(__($text), $options);
+            } else {
+                return $this->Nav->highlightCurrentLink(__($text), $options);
+            }
 
             // return $this->Html->link(__($text), $options);
         }

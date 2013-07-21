@@ -5,7 +5,7 @@ App::uses('BaseAuthorize', 'Controller/Component/Auth');
 
 class PwedeAuthorize extends BaseAuthorize {
     public function authorize($user, CakeRequest $request) {
-        debug($user);
+        // debug($user);
         
         // return false;
         $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
@@ -33,11 +33,19 @@ class PwedeAuthorize extends BaseAuthorize {
                 }
             }
         }
+
+        // debug(Configure::version());
+
+        $sess = CakeSession::read('Auth.User');
+        if(!isset($sess['AllowedResource'])) {
+             CakeSession::write('Auth.User.AllowedResource', $groupresources);
+        }
         
         if($this->_isAllowed($groupresources, $request)) {
             return true;
         }
 
+        // return true;
         SessionComponent::setFlash('You are not allowed to access the requested page');
         return false;
     }

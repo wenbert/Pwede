@@ -5,6 +5,8 @@ App::uses('BaseAuthorize', 'Controller/Component/Auth');
 
 class PwedeAuthorize extends BaseAuthorize {
     public function authorize($user, CakeRequest $request) {
+        debug($user);
+        
         // return false;
         $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
 

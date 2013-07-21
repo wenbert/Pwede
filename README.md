@@ -22,6 +22,17 @@ Add in your components:
         'RequestHandler',
         'Session',
         'Auth' => array(
+            'authenticate' => array(
+                'Form' => array(
+                    'fields' => array(
+                        'username' => 'username',
+                        'password' => 'password',
+                    ),
+                    'userModel' => 'User',
+                    'recursive' => 1, //This is so that we get the Groups upon login
+                    // 'contain' => array('contain' => 'UserManager.Group')
+                )
+            ),
             'loginAction' => array(
                     //'plugin' => 'user_manager',
                     'controller' => 'users',

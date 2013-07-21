@@ -14,3 +14,6 @@
         'path' => CACHE . 'long' . DS,
         'prefix' => 'pwede_long_'
     ));
+
+
+    Configure::write('Pwede.RESULTS_PER_PAGE', 10);

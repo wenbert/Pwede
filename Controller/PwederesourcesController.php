@@ -7,6 +7,10 @@ App::uses('PwedeAppController', 'Pwede.Controller');
  */
 class PwederesourcesController extends PwedeAppController {
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Security->unlockedActions = array('delete');
+    }
 /**
  * index method
  *

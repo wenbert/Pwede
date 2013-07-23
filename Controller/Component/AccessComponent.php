@@ -48,8 +48,8 @@ class AccessComponent extends Component {
         $this->GroupsPwederesource->bindModel(
             array('belongsTo' => array(
                 'Group' => array(
-                 'className' => $this->settings['group_model'],
-                 'foreignKey' =>  $this->settings['group_model_fk'],
+                 'className' => Configure::read('Pwede.GroupModel'),
+                 'foreignKey' =>  Configure::read('Pwede.GroupFK'),
                  'conditions' => '',
                  'fields' => '',
                  'order' => ''
@@ -75,6 +75,30 @@ class AccessComponent extends Component {
                         'joinTable' => 'groups_pwederesources',
                         'foreignKey' => 'pwederesource_id',
                         'associationForeignKey' => 'group_id',
+                        'unique' => 'keepExisting',
+                        'conditions' => '',
+                        'fields' => '',
+                        'order' => '',
+                        'limit' => '',
+                        'offset' => '',
+                        'finderQuery' => '',
+                        'deleteQuery' => '',
+                        'insertQuery' => ''
+                    )
+                )   
+            ),
+            false
+        );
+
+        $this->Group = ClassRegistry::init(Configure::read('Pwede.GroupModel'));
+        $this->Group->bindModel(
+            array('hasAndBelongsToMany' => 
+                array(
+                    'Pwederesource' => array(
+                        'className' => 'Pwede.Pwederesource',
+                        'joinTable' => 'groups_pwederesources',
+                        'foreignKey' => 'group_id',
+                        'associationForeignKey' => 'pwederesource_id',
                         'unique' => 'keepExisting',
                         'conditions' => '',
                         'fields' => '',

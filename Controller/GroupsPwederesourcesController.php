@@ -7,6 +7,12 @@ App::uses('PwedeAppController', 'Pwede.Controller');
  */
 class GroupsPwederesourcesController extends PwedeAppController {
 
+
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Security->unlockedActions = array('delete');
+    }
+
 /**
  * index method
  *
@@ -110,8 +116,6 @@ class GroupsPwederesourcesController extends PwedeAppController {
             throw new NotFoundException(__('Invalid groups pwederesource'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
-            // debug($this->request->data);
-            // die();
             if ($this->GroupsPwederesource->save($this->request->data)) {
                 Cache::delete('pwederesources','long');
                 $this->Session->setFlash(__('The groups pwederesource has been saved'));

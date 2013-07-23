@@ -1,8 +1,8 @@
 <?php
-App::uses('AppController', 'Controller');
-// App::uses('GridAppController', 'Grid.Controller');
-// class PwedeAppController extends GridAppController {
-class PwedeAppController extends AppController {
+// App::uses('AppController', 'Controller');
+// class PwedeAppController extends AppController {
+App::uses('GridAppController', 'Grid.Controller');
+class PwedeAppController extends GridAppController {
     
     public function beforeFilter() {
         parent::beforeFilter();

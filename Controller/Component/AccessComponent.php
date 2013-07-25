@@ -55,7 +55,7 @@ class AccessComponent extends Component {
                  'order' => ''
                 ),
                 'Pwederesource' => array(
-                    'className' => 'Pwederesource',
+                    'className' => 'Pwede.Pwederesource',
                     'foreignKey' => 'pwederesource_id',
                     'conditions' => '',
                     'fields' => '',
@@ -65,7 +65,7 @@ class AccessComponent extends Component {
             false
         );
 
-        $this->Pwederesource = ClassRegistry::init('Pwederesource');
+        $this->Pwederesource = ClassRegistry::init('Pwede.Pwederesource');
         $this->Pwederesource->bindModel(
             array('hasAndBelongsToMany' => 
                 array(

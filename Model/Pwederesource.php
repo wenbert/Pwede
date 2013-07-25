@@ -34,7 +34,7 @@ class Pwederesource extends PwedeAppModel {
                 //'last' => false, // Stop validation after this rule
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
-        )
+        ),
         'action' => array(
             'notempty' => array(
                 'rule' => array('notempty'),

@@ -27,7 +27,14 @@ class PwedeHelper extends AppHelper {
 
         $hasAccess = false;
 
-        $resources = CakeSession::read('Auth.User.AllowedResource');
+        $loggedInUser = AuthComponent::user();
+
+        $resources = array();
+        foreach($loggedInUser['Group'] AS $group) {
+            $resources = $group['Pwederesource'];
+        }
+
+        // $resources = CakeSession::read('Auth.User.AllowedResource');
 
         if(!isset($options['plugin'])) {
             // $options['plugin'] = "";
@@ -44,18 +51,18 @@ class PwedeHelper extends AppHelper {
         foreach($resources AS $key => $resource) {
 
             // */*
-            if($resource['Pwederesource']['plugin']==="*" && $resource['Pwederesource']['controller'] ==="*") {
+            if($resource['plugin']==="*" && $resource['controller'] ==="*") {
                 $hasAccess = true;
                 //this is the superadmin
             }
 
             // plugin/*
             if(
-                $resource['Pwederesource']['plugin'] === $options['plugin'] &&
+                $resource['plugin'] === $options['plugin'] &&
                 (
-                    $resource['Pwederesource']['controller'] === null || 
-                    $resource['Pwederesource']['controller'] === "" || 
-                    $resource['Pwederesource']['controller'] === "*"
+                    $resource['controller'] === null || 
+                    $resource['controller'] === "" || 
+                    $resource['controller'] === "*"
                 )
             ) {
                 // debug('a');
@@ -64,12 +71,12 @@ class PwedeHelper extends AppHelper {
 
             // plugin/controler/*
             if(
-                $resource['Pwederesource']['plugin'] === $options['plugin'] &&
-                $resource['Pwederesource']['controller'] === $options['controller'] &&
+                $resource['plugin'] === $options['plugin'] &&
+                $resource['controller'] === $options['controller'] &&
                 (
-                    $resource['Pwederesource']['action'] === "*" ||
-                    $resource['Pwederesource']['action'] === "" ||
-                    $resource['Pwederesource']['action'] === null
+                    $resource['action'] === "*" ||
+                    $resource['action'] === "" ||
+                    $resource['action'] === null
                 )
             ) {
                  // debug('b');
@@ -78,9 +85,9 @@ class PwedeHelper extends AppHelper {
 
             // plugin/controller/action/*
             if(
-                $resource['Pwederesource']['plugin'] === $options['plugin'] &&
-                $resource['Pwederesource']['controller'] === $options['controller'] &&
-                $resource['Pwederesource']['action'] === $options['action']
+                $resource['plugin'] === $options['plugin'] &&
+                $resource['controller'] === $options['controller'] &&
+                $resource['action'] === $options['action']
             ) {
                 // debug('c');
                 $hasAccess = true;

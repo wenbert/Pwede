@@ -109,7 +109,7 @@ class AccessComponent extends Component {
                         'deleteQuery' => '',
                         'insertQuery' => ''
                     )
-                )   
+                ),
             ),
             false
         );

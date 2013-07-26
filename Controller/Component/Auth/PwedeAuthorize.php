@@ -7,40 +7,13 @@ class PwedeAuthorize extends BaseAuthorize {
     public function authorize($user, CakeRequest $request) {
         // debug($user);
         
-        // return false;
-        $this->GroupsPwederesource = ClassRegistry::init('GroupsPwederesource');
-
         $loggedInUser = $user;
         
-        $gids = array();
-        foreach($loggedInUser['Group'] AS $group) {
-            $gids[] = $group['id'];
-        }
-
-        //Cache this longterm. We clear the cache everytime we change permissions
-        $resources = Cache::read('pwederesources', 'long');
-
-        if(!$resources) {
-            $resources = $this->GroupsPwederesource->find('all');
-            Cache::write('pwederesources', $resources, 'long');
-        }
-
         $groupresources = array();
-        foreach($resources AS $resource) {
-            foreach($gids AS $group_id) {
-                if($group_id == $resource['Group']['id']) {
-                    $groupresources[] = $resource;
-                }
-            }
+        foreach($loggedInUser['Group'] AS $group) {
+            $groupresources = $group['Pwederesource'];
         }
 
-        // debug(Configure::version());
-
-        $sess = CakeSession::read('Auth.User');
-        if(!isset($sess['AllowedResource'])) {
-             CakeSession::write('Auth.User.AllowedResource', $groupresources);
-        }
-        
         if($this->_isAllowed($groupresources, $request)) {
             return true;
         }
@@ -56,21 +29,23 @@ class PwedeAuthorize extends BaseAuthorize {
             return false;
         }
 
+        // debug($resources);
+        // die();
         foreach($resources AS $key => $resource) {
 
             // */*
-            if($resource['Pwederesource']['plugin']==="*" && $resource['Pwederesource']['controller'] ==="*") {
+            if($resource['plugin']==="*" && $resource['controller'] ==="*") {
                 return true;
                 //this is the superadmin
             }
 
             // plugin/*
             if(
-                $resource['Pwederesource']['plugin'] === $request->params['plugin'] &&
+                $resource['plugin'] === $request->params['plugin'] &&
                 (
-                    $resource['Pwederesource']['controller'] === null || 
-                    $resource['Pwederesource']['controller'] === "" || 
-                    $resource['Pwederesource']['controller'] === "*"
+                    $resource['controller'] === null || 
+                    $resource['controller'] === "" || 
+                    $resource['controller'] === "*"
                 )
             ) {
                 // debug('a');
@@ -79,12 +54,12 @@ class PwedeAuthorize extends BaseAuthorize {
 
             // plugin/controler/*
             if(
-                $resource['Pwederesource']['plugin'] === $request->params['plugin'] &&
-                $resource['Pwederesource']['controller'] === $request->params['controller'] &&
+                $resource['plugin'] === $request->params['plugin'] &&
+                $resource['controller'] === $request->params['controller'] &&
                 (
-                    $resource['Pwederesource']['action'] === "*" ||
-                    $resource['Pwederesource']['action'] === "" ||
-                    $resource['Pwederesource']['action'] === null
+                    $resource['action'] === "*" ||
+                    $resource['action'] === "" ||
+                    $resource['action'] === null
                 )
             ) {
                  // debug('b');
@@ -93,9 +68,9 @@ class PwedeAuthorize extends BaseAuthorize {
 
             // plugin/controller/action/*
             if(
-                $resource['Pwederesource']['plugin'] === $request->params['plugin'] &&
-                $resource['Pwederesource']['controller'] === $request->params['controller'] &&
-                $resource['Pwederesource']['action'] === $request->params['action']
+                $resource['plugin'] === $request->params['plugin'] &&
+                $resource['controller'] === $request->params['controller'] &&
+                $resource['action'] === $request->params['action']
             ) {
                 // debug('c');
                 return true;

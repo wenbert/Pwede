@@ -47,6 +47,22 @@ class Pwederesource extends PwedeAppModel {
         )
     );
 
+
+    public function beforeFind($queryData) {
+        $queryData['conditions'] = array("NOT" => array(
+                "plugin" => "*",
+                "controller" => "*",
+                "plugin" => "pwede",
+            )
+        );
+
+        // debug($queryData);
+        
+        // $queryData['conditions']['id'] = AuthComponent::user('account_id');
+
+        // debug($queryData);
+        return $queryData;
+    }
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**

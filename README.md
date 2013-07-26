@@ -29,8 +29,7 @@ Add in your components:
                         'password' => 'password',
                     ),
                     'userModel' => 'User',
-                    'recursive' => 1, //This is so that we get the Groups upon login
-                    // 'contain' => array('contain' => 'UserManager.Group')
+                    'recursive' => 2, //This is so that we get the Groups and Resources upon login
                 )
             ),
             'loginAction' => array(

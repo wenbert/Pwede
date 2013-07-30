@@ -49,12 +49,22 @@ class Pwederesource extends PwedeAppModel {
 
 
     public function beforeFind($queryData) {
-        $queryData['conditions'] = array("NOT" => array(
-                "plugin" => "*",
-                "controller" => "*",
-                "plugin" => "pwede",
-            )
-        );
+        $user = AuthComponent::user();
+        $is_super_admin = false;
+        foreach($user['Group'] AS $group) {
+            if(strtolower($group['name']) === 'superadmin') {
+                $is_super_admin = true;
+                break;
+            }
+        }
+        if(!$is_super_admin) {
+            $queryData['conditions'] = array("NOT" => array(
+                    "plugin" => "*",
+                    "controller" => "*",
+                    // "plugin" => "pwede",
+                )
+            );
+        }
 
         // debug($queryData);
         
@@ -90,5 +100,9 @@ class Pwederesource extends PwedeAppModel {
     //      'insertQuery' => ''
     //  )
     // );
+
+// public $actsAs = array(
+//         'Containable',
+//     );
 
 }

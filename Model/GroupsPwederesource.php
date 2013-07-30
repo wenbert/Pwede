@@ -35,6 +35,4 @@ class GroupsPwederesource extends PwedeAppModel {
 			),
 		),
 	);
-
-	
 }

@@ -14,11 +14,11 @@ class PwedeAuthorize extends BaseAuthorize {
             $groupresources = $group['Pwederesource'];
         }
 
+
         if($this->_isAllowed($groupresources, $request)) {
             return true;
         }
 
-        // return true;
         SessionComponent::setFlash('You are not allowed to access the requested page');
         return false;
     }
@@ -29,8 +29,6 @@ class PwedeAuthorize extends BaseAuthorize {
             return false;
         }
 
-        // debug($resources);
-        // die();
         foreach($resources AS $key => $resource) {
 
             // */*

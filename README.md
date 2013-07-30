@@ -20,7 +20,7 @@ Add in your components:
 
     public $components = array(
         'RequestHandler',
-        'Session',
+        // 'Acl',
         'Auth' => array(
             'authenticate' => array(
                 'Form' => array(
@@ -29,30 +29,31 @@ Add in your components:
                         'password' => 'password',
                     ),
                     'userModel' => 'User',
-                    'recursive' => 2, //This is so that we get the Groups and Resources upon login
+                    'contain' => array('Group','Group.Pwederesource'),
+                    'recursive' => -1,
                 )
             ),
             'loginAction' => array(
-                    //'plugin' => 'user_manager',
+                    'plugin' => 'user_manager',
                     'controller' => 'users',
                     'action' => 'login'
             ),
             'logoutRedirect' => array(
-                    //'plugin' => 'user_manager',
+                    'plugin' => 'user_manager',
                     'controller' => 'users',
                     'action' => 'login'
-            ),
-            'loginRedirect' => array(
-                    //'plugin' => 'content',
-                    'controller' => 'articles',
-                    'action' => 'index'
             ),
             'authorize' => array(
                 'Pwede.Pwede',
             )
         ),
+        'Session',
+        'Security' => array(
+            'csrfUseOnce' => false
+        ),
         'Pwede.Access' => array(
-            'group_model' => 'Group', //'Plugin.Group' if you group model is in a plugin
+            'user_model' => 'UserManager.User',
+            'group_model' => 'UserManager.Group',
             'group_model_fk' => 'group_id'
         )
     );
@@ -63,6 +64,12 @@ The Group Model
 
 'group_model_fk' => 'group_id',
 The Foreign Key
+
+Make sure your User model has:
+
+    public $actsAs = array(
+        'Containable',
+    );
 
 Setup the cache. Make sure that this directory exists:
 

@@ -5,7 +5,7 @@ An access permission plugin for CakePHP. Permission management is centralized. P
 
 Component Dependencies
 ====
-This plugin relies on the Auth component enabled. Make sure you have the Auth component setup and the 'authorize' parameter set to 'Pwede.Pwede'
+This plugin relies on the Auth component enabled (see below). Make sure you have the Auth component setup and the 'authorize' parameter set to 'Pwede.Pwede'
 
 
 Usage
@@ -59,19 +59,16 @@ Add in your components:
     );
 
 WHERE
-'group_model' => 'UserManager.Group'
-The Group Model
 
-'group_model_fk' => 'group_id',
+The Group Model
+    'group_model' => 'UserManager.Group'
+
 The Foreign Key
+    'group_model_fk' => 'group_id',
 
 Make sure your User model has:
 
     public $actsAs = array(
         'Containable',
     );
-
-Setup the cache. Make sure that this directory exists:
-
-    app/tmp/cache/long
 

@@ -30,8 +30,10 @@ class PwedeHelper extends AppHelper {
         $loggedInUser = AuthComponent::user();
 
         $resources = array();
-        foreach($loggedInUser['Group'] AS $group) {
-            $resources = $group['Pwederesource'];
+        if(isset($loggedInUser['Group'])) {
+            foreach($loggedInUser['Group'] AS $group) {
+                $resources = $group['Pwederesource'];
+            }
         }
 
         // $resources = CakeSession::read('Auth.User.AllowedResource');

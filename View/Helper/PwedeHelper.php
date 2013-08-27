@@ -25,6 +25,9 @@ class PwedeHelper extends AppHelper {
      */
     public function link($text, $options, $isTab = false) {
 
+        $action = explode('/', $options['action']);
+        $options['action'] = $action[0];
+
         $hasAccess = false;
 
         $loggedInUser = AuthComponent::user();
@@ -101,6 +104,7 @@ class PwedeHelper extends AppHelper {
         }
 
         if($hasAccess) {
+            $options['action'] = implode('/', $action);
             if($isTab) {
                 return $this->Nav->highlightCurrentTab(__($text), $options);
             } else {
@@ -113,6 +117,10 @@ class PwedeHelper extends AppHelper {
     }
 
     public function buttonLink($text, $options, $html_options) {
+
+        $action = explode('/', $options['action']);
+        $options['action'] = $action[0];
+
         $hasAccess = false;
 
         $loggedInUser = AuthComponent::user();
@@ -196,6 +204,10 @@ class PwedeHelper extends AppHelper {
     }
 
     public function postLink($title, $options = null, $html_options = array(), $confirmMessage = false) {
+
+        $action = explode('/', $options['action']);
+        $options['action'] = $action[0];
+
         $hasAccess = false;
         $loggedInUser = AuthComponent::user();
 
@@ -271,6 +283,9 @@ class PwedeHelper extends AppHelper {
         }
 
         if($hasAccess) {
+            
+            $options['action'] = implode('/', $action);
+
             echo $this->Form->postLink(
             __($title), 
             $options,

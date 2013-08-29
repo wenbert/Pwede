@@ -130,7 +130,7 @@ class DummyControllerTest extends ControllerTestCase {
             array('method' => 'get', 'return' => 'contents')
         );
 
-        // $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
+        $this->assertContains('You are not authorized to access that location',CakeSession::read('Message.auth.message'));
         $this->assertNull($result);
     }
 
@@ -155,7 +155,7 @@ class DummyControllerTest extends ControllerTestCase {
             array('method' => 'get', 'return' => 'contents')
         );
 
-        // $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
+        $this->assertContains('You are not authorized to access that location',CakeSession::read('Message.auth.message'));
         $this->assertNull($result);
     }
 

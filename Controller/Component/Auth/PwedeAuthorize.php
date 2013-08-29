@@ -16,7 +16,7 @@ class PwedeAuthorize extends BaseAuthorize {
         if($this->_isAllowed($groupresources, $request)) {
             return true;
         }
-        SessionComponent::setFlash('You are not allowed to access the requested page');
+        // SessionComponent::setFlash('You are not allowed to access the requested page');
         return false;
     }
 

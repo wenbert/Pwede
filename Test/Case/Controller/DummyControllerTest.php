@@ -124,7 +124,7 @@ class DummyControllerTest extends ControllerTestCase {
             array('method' => 'get', 'return' => 'contents')
         );
 
-        $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
+        // $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
         $this->assertNull($result);
     }
 
@@ -149,8 +149,42 @@ class DummyControllerTest extends ControllerTestCase {
             array('method' => 'get', 'return' => 'contents')
         );
 
-        $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
+        // $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
         $this->assertNull($result);
+    }
+
+/**
+ * testGroupHasAccessToDashboard
+ * A user who belongs to a group trying to access Dummy index. 
+ * The group is allowed to view the Dummy index
+ */
+    public function testGroupHasAccessToDashboard() {
+        CakeSession::delete('Auth');
+        $group_id = '3';
+        $group_name = 'dummygroup';
+        CakeSession::write('Auth.User.id', '1'); 
+        CakeSession::write('Auth.User.username', 'testuser'); 
+        CakeSession::write('Auth.User.email', 'wenbert@gmail.com'); 
+        CakeSession::write('Auth.User.Group.0', 
+                array(
+                    'id' => $group_id,
+                    'name' => $group_name,
+        ));
+        CakeSession::write('Auth.User.Group.0.Pwederesource.0', 
+                array(
+                    'id' => $group_id,
+                    'plugin' => 'pwede',
+                    'controller' => 'dummy',
+                    'action' => 'index'
+                )
+        );
+
+        $result = $this->testAction('/pwede/dummy',
+            array('method' => 'get', 'return' => 'contents')
+        );
+
+        
+        $this->assertContains('This is a dummy controller.', $result);
     }
 
 // /**

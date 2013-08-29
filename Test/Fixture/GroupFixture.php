@@ -39,6 +39,12 @@ class GroupFixture extends CakeTestFixture {
 			'created' => '2013-07-14 20:43:01',
 			'modified' => '2013-07-14 20:43:01'
 		),
+		array(
+			'id' => 3,
+			'name' => 'dummygroup',
+			'created' => '2013-07-14 20:43:01',
+			'modified' => '2013-07-14 20:43:01'
+		),
 	);
 
 }

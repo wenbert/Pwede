@@ -31,6 +31,11 @@ class GroupsPwederesourceFixture extends CakeTestFixture {
 			'group_id' => 1,
 			'pwederesources_id' => 1
 		),
+		array(
+			'id' => 2,
+			'group_id' => 3,
+			'pwederesources_id' => 3
+		),
 	);
 
 }

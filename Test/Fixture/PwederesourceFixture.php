@@ -48,6 +48,15 @@ class PwederesourceFixture extends CakeTestFixture {
 			'pass' => 'pass',
 			'query' => 'query'
 		),
+		array(
+			'id' => 3,
+			'plugin' => 'pwede',
+			'controller' => 'dummy',
+			'action' => 'index',
+			'named' => '',
+			'pass' => '',
+			'query' => ''
+		),
 	);
 
 }

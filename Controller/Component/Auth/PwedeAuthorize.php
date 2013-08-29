@@ -8,6 +8,9 @@ class PwedeAuthorize extends BaseAuthorize {
         $loggedInUser = $user;
         $groupresources = array();
 
+        // debug($loggedInUser);
+        // die();
+
         foreach($loggedInUser['Group'] AS $group) {
             if(isset($group['Pwederesource'])) {
                 $groupresources = $group['Pwederesource'];

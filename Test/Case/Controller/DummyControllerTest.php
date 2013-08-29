@@ -99,6 +99,12 @@ class DummyControllerTest extends ControllerTestCase {
  */
     public function testIfNotLoggedIn() {
         CakeSession::delete('Auth');
+        $result = $this->testAction('/pwede/dashboards',
+            array('method' => 'get', 'return' => 'contents')
+        );
+
+        // $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
+        $this->assertNull($result);
         $this->assertContains('You are not authorized',CakeSession::read('Message.auth.message'));
     }
 

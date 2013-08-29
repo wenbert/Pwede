@@ -29,7 +29,13 @@ class GroupFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'name' => 'Lorem ipsum dolor sit amet',
+			'name' => 'superadmin',
+			'created' => '2013-07-14 20:43:01',
+			'modified' => '2013-07-14 20:43:01'
+		),
+		array(
+			'id' => 2,
+			'name' => 'testgroup',
 			'created' => '2013-07-14 20:43:01',
 			'modified' => '2013-07-14 20:43:01'
 		),

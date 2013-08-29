@@ -5,20 +5,17 @@ App::uses('BaseAuthorize', 'Controller/Component/Auth');
 
 class PwedeAuthorize extends BaseAuthorize {
     public function authorize($user, CakeRequest $request) {
-        // debug($user);
-        
         $loggedInUser = $user;
-        
         $groupresources = array();
+
         foreach($loggedInUser['Group'] AS $group) {
-            $groupresources = $group['Pwederesource'];
+            if(isset($group['Pwederesource'])) {
+                $groupresources = $group['Pwederesource'];
+            }
         }
-
-
         if($this->_isAllowed($groupresources, $request)) {
             return true;
         }
-
         SessionComponent::setFlash('You are not allowed to access the requested page');
         return false;
     }

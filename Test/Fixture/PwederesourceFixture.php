@@ -32,12 +32,21 @@ class PwederesourceFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'plugin' => 'Lorem ipsum dolor sit amet',
-			'controller' => 'Lorem ipsum dolor sit amet',
-			'action' => 'Lorem ipsum dolor sit amet',
-			'named' => 'Lorem ipsum dolor sit amet',
-			'pass' => 'Lorem ipsum dolor sit amet',
-			'query' => 'Lorem ipsum dolor sit amet'
+			'plugin' => '*',
+			'controller' => '*',
+			'action' => '*',
+			'named' => '',
+			'pass' => '',
+			'query' => ''
+		),
+		array(
+			'id' => 2,
+			'plugin' => 'pwede',
+			'controller' => 'dashboards',
+			'action' => 'index',
+			'named' => 'named',
+			'pass' => 'pass',
+			'query' => 'query'
 		),
 	);
 

@@ -82,7 +82,7 @@ class PwedeAuthorizeTest extends CakeTestCase  {
                 )
             );
 
-        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        // $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
         $this->Components = $this->getMock('ComponentCollection');
 
         $this->auth = new PwedeAuthorize($this->Components);
@@ -123,7 +123,7 @@ class PwedeAuthorizeTest extends CakeTestCase  {
                 )
             );
 
-        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        // $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
         $this->Components = $this->getMock('ComponentCollection');
 
         $this->auth = new PwedeAuthorize($this->Components);
@@ -196,7 +196,7 @@ class PwedeAuthorizeTest extends CakeTestCase  {
                 )
             );
 
-        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        // $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
         $this->Components = $this->getMock('ComponentCollection');
 
         $this->auth = new PwedeAuthorize($this->Components);
@@ -237,7 +237,7 @@ class PwedeAuthorizeTest extends CakeTestCase  {
                 )
             );
 
-        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        // $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
         $this->Components = $this->getMock('ComponentCollection');
 
         $this->auth = new PwedeAuthorize($this->Components);
@@ -278,7 +278,7 @@ class PwedeAuthorizeTest extends CakeTestCase  {
                 )
             );
 
-        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        // $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
         $this->Components = $this->getMock('ComponentCollection');
 
         $this->auth = new PwedeAuthorize($this->Components);

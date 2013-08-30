@@ -92,6 +92,10 @@ class PwedeAuthorizeTest extends CakeTestCase  {
         
     }
 
+/**
+ * testNonSuperAdminAndHasAccess
+ * Test when a group tries to access a resource that it has access to
+ */
     public function testNonSuperAdminAndHasAccess() {
         $request = new CakeRequest('/pwede/dummy/index', false);
         $request->params['plugin'] = 'pwede';
@@ -128,6 +132,10 @@ class PwedeAuthorizeTest extends CakeTestCase  {
         $this->assertTrue($result);
     }
 
+/**
+ * testNonSuperAdminAndHasNoAccess
+ * Test when a group tries to access a resource that it has no access to
+ */
     public function testNonSuperAdminAndHasNoAccess() {
         $request = new CakeRequest('/pwede/dummy/index', false);
         $request->params['plugin'] = 'pwede';
@@ -164,4 +172,118 @@ class PwedeAuthorizeTest extends CakeTestCase  {
         $this->assertFalse($result);
     }
 
+/**
+ * testNoResources
+ * Test when the Pwederesource array is empty
+ */
+    public function testNoResources() {
+        $request = new CakeRequest('/pwede/dummy/index', false);
+        $request->params['plugin'] = 'pwede';
+        $request->params['controller'] = 'dummy';
+        $request->params['action'] = 'index';
+
+        $user = array('User' => array(
+                    'id' => '1',
+                    'username' => 'nonsuperadmin',
+                    'email' => 'wenbert@gmail.com'
+                ),
+                'Group' => array(
+                    array(
+                        'id' => '1', 
+                        'name' => 'nonsuperadmin',
+                        'Pwederesource' => array()
+                    )
+                )
+            );
+
+        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        $this->Components = $this->getMock('ComponentCollection');
+
+        $this->auth = new PwedeAuthorize($this->Components);
+        
+        $result = $this->auth->authorize($user, $request);
+        $this->assertFalse($result);
+    }
+
+/**
+ * testOnlyPluginIsSpecified
+ * Test when the only Plugin is specified in the resource. 
+ * Controller and Action are empty / null.
+ */
+    public function testOnlyPluginIsSpecified() {
+        $request = new CakeRequest('/pwede/dummy/index', false);
+        $request->params['plugin'] = 'pwede';
+        $request->params['controller'] = 'dummy';
+        $request->params['action'] = 'index';
+
+        $user = array('User' => array(
+                    'id' => '1',
+                    'username' => 'nonsuperadmin',
+                    'email' => 'wenbert@gmail.com'
+                ),
+                'Group' => array(
+                    array(
+                        'id' => '1', 
+                        'name' => 'nonsuperadmin',
+                        'Pwederesource' => array(
+                            array(
+                                'id' => '1',
+                                'plugin' => 'pwede',
+                                'controller' => '',
+                                'action' => ''
+                            )
+                        )
+                    )
+                )
+            );
+
+        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        $this->Components = $this->getMock('ComponentCollection');
+
+        $this->auth = new PwedeAuthorize($this->Components);
+        
+        $result = $this->auth->authorize($user, $request);
+        $this->assertTrue($result);
+    }
+
+/**
+ * testOnlyPluginAndControllerIsSpecified
+ * Test when only Plugin and Controller is specified in the resource
+ * Action is empty / null
+ */
+    public function testOnlyPluginAndControllerIsSpecified() {
+        $request = new CakeRequest('/pwede/dummy/index', false);
+        $request->params['plugin'] = 'pwede';
+        $request->params['controller'] = 'dummy';
+        $request->params['action'] = 'index';
+
+        $user = array('User' => array(
+                    'id' => '1',
+                    'username' => 'nonsuperadmin',
+                    'email' => 'wenbert@gmail.com'
+                ),
+                'Group' => array(
+                    array(
+                        'id' => '1', 
+                        'name' => 'nonsuperadmin',
+                        'Pwederesource' => array(
+                            array(
+                                'id' => '1',
+                                'plugin' => 'pwede',
+                                'controller' => 'dummy',
+                                'action' => ''
+                            )
+                        )
+                    )
+                )
+            );
+
+        $this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
+        $this->Components = $this->getMock('ComponentCollection');
+
+        $this->auth = new PwedeAuthorize($this->Components);
+        
+        $result = $this->auth->authorize($user, $request);
+        $this->assertTrue($result);
+    }
 }
